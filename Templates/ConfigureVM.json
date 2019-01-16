@@ -56,12 +56,12 @@
           "modulesURL": "[variables('MYVMConfigurationModulesURL')]",
           "configurationFunction": "[variables('MYVMConfigurationFunction')]",
           "properties": {
-            "domainName": "[parameters('domainName')]",
+            "DomainName": "[parameters('domainName')]",
             "DNSServer": "[parameters('DNSServer')]",
             "DNSForwarder": "[parameters('DNSServer')]",
             "adminCreds": {
-              "userName": "[parameters('adminUserName')]",
-              "password": "privateSettingsRef:adminPassword"
+              "UserName": "[parameters('adminUserName')]",
+              "Password": "privateSettingsRef:adminPassword"
             }
           }
         },
