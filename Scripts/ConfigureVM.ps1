@@ -100,49 +100,7 @@ configuration ConfigureVM
             TestScript = { $false }
             DependsOn = "[WindowsFeature]DNSTools"
         }
-        
-        WindowsFeature ADTools
-        {
-            Ensure = "Present"
-            Name = "RSAT-AD-Tools"
-            DependsOn = "[WindowsFeature]DNS"
-        }
-        
-        WindowsFeature GPOTools
-        {
-            Ensure = "Present"
-            Name = "GPMC"
-            DependsOn = "[WindowsFeature]DNS"
-        }
 
-        WindowsFeature DFSTools
-        {
-            Ensure = "Present"
-            Name = "RSAT-DFS-Mgmt-Con"
-            DependsOn = "[WindowsFeature]DNS"
-        }
-
-        xWaitforDisk Disk2
-        {
-            DiskId = 2
-            RetryIntervalSec =$RetryIntervalSec
-            RetryCount = $RetryCount
-        }
-        
-        xDisk ADDataDisk
-        {
-            DiskId = 2
-            DriveLetter = "F"
-            DependsOn = "[xWaitForDisk]Disk2"
-        }
-        
-        WindowsFeature ADDSInstall
-        {
-            Ensure = "Present"
-            Name = "AD-Domain-Services"
-            DependsOn = "[xDisk]ADDataDisk"
-        }
-        
         #
         # Additional DCs must use another DC for DNS. 
         #
@@ -163,18 +121,6 @@ configuration ConfigureVM
             DependsOn="[xDNSServerAddress]DnsServerAddress"
         }
         
-        xADDomainController NextDC
-        {
-            DomainName = $DomainName
-            DomainAdministratorCredential = $DomainCreds
-            SafemodeAdministratorPassword = $DomainCreds
-            DatabasePath = "F:\NTDS"
-            LogPath = "F:\NTDS"
-            SysvolPath = "F:\SYSVOL"
-            DependsOn = @("[xWaitForADDomain]DscForestWait", "[WindowsFeature]ADDSInstall", "[Script]SetDNSForwarder")
-        }
-
-
     
     }
 }
