@@ -101,9 +101,7 @@
     "vmOSDisk": "[concat(parameters('vmName'),'-managed-OSDisk')]",
     "vmDataDiskSize": 10,
     "imagePublisher": "MicrosoftWindowsServer",
-    "imageOffer": "WindowsServer",
-    "MYVMConfigurationModulesURL": "[concat(parameters('_artifactsLocation'),'/Scripts/ConfigureVM.zip',parameters('_artifactsLocationSasToken'))]",
-    "MYVMConfigurationFunction": "ConfigureVM.ps1\\ConfigureVM"
+    "imageOffer": "WindowsServer"
   },
   "resources": [
     {
@@ -198,7 +196,7 @@
         {
           "apiVersion": "2018-06-01",
           "type": "Microsoft.Compute/virtualMachines/extensions",
-          "name": "[concat(parameters('vmName'),'/vmEnablePSScript')]",
+          "name": "[concat(parameters('vmName'),'/InstallTool')]",
           "location": "[parameters('location')]",
           "dependsOn": [
             "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]"
