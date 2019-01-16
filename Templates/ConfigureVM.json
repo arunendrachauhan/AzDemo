@@ -60,8 +60,8 @@
             "DNSServer": "[parameters('DNSServer')]",
             "DNSForwarder": "[parameters('DNSServer')]",
             "adminCreds": {
-              "UserName": "[parameters('adminUserName')]",
-              "Password": "privateSettingsRef:adminPassword"
+              "userName": "[parameters('adminUserName')]",
+              "password": "privateSettingsRef:adminPassword"
             }
           }
         },
