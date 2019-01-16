@@ -77,12 +77,6 @@
         "description": "The Storage type of the data Disks."
       }
     },
-    "DNSServer": {
-      "type":  "string"
-    },
-    "domainName": {
-      "type": "string"
-    },
 	  "_artifactsLocation": {
       "type": "string"
     },
@@ -107,9 +101,7 @@
     "vmOSDisk": "[concat(parameters('vmName'),'-managed-OSDisk')]",
     "vmDataDiskSize": 10,
     "imagePublisher": "MicrosoftWindowsServer",
-    "imageOffer": "WindowsServer",
-    "MYVMConfigurationModulesURL": "[concat(parameters('_artifactsLocation'),'/Scripts/ConfigureVM.zip',parameters('_artifactsLocationSasToken'))]",
-    "MYVMConfigurationFunction": "ConfigureVM.ps1\\ConfigureVM"
+    "imageOffer": "WindowsServer"
   },
   "resources": [
     {
@@ -221,39 +213,6 @@
           }
         }
       ]
-    },
-    {
-      "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(parameters('vmName'),'/ConfigureVM')]",
-      "apiVersion": "2018-06-01",
-      "location": "[parameters('location')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]"
-      ],
-      "properties": {
-        "publisher": "Microsoft.Powershell",
-        "type": "DSC",
-        "typeHandlerVersion": "2.21",
-        "autoUpgradeMinorVersion": true,
-        "settings": {
-          "modulesURL": "[variables('MYVMConfigurationModulesURL')]",
-          "configurationFunction": "[variables('MYVMConfigurationFunction')]",
-          "properties": {
-            "domainName": "[parameters('domainName')]",
-            "DNSServer": "[parameters('DNSServer')]",
-            "DNSForwarder": "[parameters('DNSServer')]",
-            "adminCreds": {
-              "userName": "[parameters('vmAdminUsername')]",
-              "password": "privateSettingsRef:adminPassword"
-            }
-          }
-        },
-        "protectedSettings": {
-          "items": {
-            "adminPassword": "[parameters('vmAdminPassword')]"
-          }
-        }
-      }
     }
   ],
   "outputs": { }

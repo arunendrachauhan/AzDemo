@@ -7,4 +7,3 @@ Set-ExecutionPolicy Bypass -Scope Process -Force; Invoke-Expression ((New-Object
 choco install -y git -force
 new-item 'C:\bitbucket' -ItemType directory
 Invoke-WebRequest -Uri https://www.atlassian.com/software/stash/downloads/binary/atlassian-bitbucket-5.16.0-x64.exe -outfile 'C:\bitbucket\setup.exe'
-./InstallBitbucket.ps1

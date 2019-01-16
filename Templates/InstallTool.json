@@ -93,7 +93,7 @@
     }
   },
   "variables": {
-    "installToolModulesScriptURI": "[concat(parameters('_artifactsLocation'),'/Scripts/InstallToolModules.ps1',parameters('_artifactsLocationSasToken'))]",
+    "installToolScriptURI": "[concat(parameters('_artifactsLocation'),'/Scripts/InstallBitbucket.ps1',parameters('_artifactsLocationSasToken'))]",
     "ToolSubnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets/', parameters('virtualNetworkName'),parameters('ToolSubnetName'))]",
     "vmPublicIPName": "[concat(parameters('vmName'),'PublicIP')]",
     "vmNicName": "[concat(parameters('vmName'),'Nic')]",
@@ -101,7 +101,9 @@
     "vmOSDisk": "[concat(parameters('vmName'),'-managed-OSDisk')]",
     "vmDataDiskSize": 10,
     "imagePublisher": "MicrosoftWindowsServer",
-    "imageOffer": "WindowsServer"
+    "imageOffer": "WindowsServer",
+    "MYVMConfigurationModulesURL": "[concat(parameters('_artifactsLocation'),'/Scripts/ConfigureVM.zip',parameters('_artifactsLocationSasToken'))]",
+    "MYVMConfigurationFunction": "ConfigureVM.ps1\\ConfigureVM"
   },
   "resources": [
     {
@@ -210,7 +212,7 @@
               "fileUris": [
                 "[variables('installToolScriptURI')]"
               ],
-              "commandToExecute": "powershell -ExecutionPolicy Unrestricted -file InstallToolModules.ps1 -run './InstallToolModules.ps1'"
+              "commandToExecute": "powershell -ExecutionPolicy Unrestricted -file InstallBitbucket.ps1 -run './InstallBitbucket.ps1'"
             }
           }
         }

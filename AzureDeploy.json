@@ -45,10 +45,12 @@
         "ADSvrTemplateUri": "[concat(parameters('_artifactsLocation'),'/Templates/CreateADSvr.json',parameters('_artifactsLocationSasToken'))]",
         "JumpSvrTemplateUri": "[concat(parameters('_artifactsLocation'),'/Templates/CreateJumpSvr.json',parameters('_artifactsLocationSasToken'))]",
         "ToolSvrTemplateUri": "[concat(parameters('_artifactsLocation'),'/Templates/CreateToolSvr.json',parameters('_artifactsLocationSasToken'))]",
-        "ConfigureSvrTemplateUri": "[concat(parameters('_artifactsLocation'),'/Templates/ConfigureADSvr.json',parameters('_artifactsLocationSasToken'))]",
+        "ConfigureADSvrTemplateUri": "[concat(parameters('_artifactsLocation'),'/Templates/ConfigureADSvr.json',parameters('_artifactsLocationSasToken'))]",
+        "ConfigureVMSvrTemplateUri": "[concat(parameters('_artifactsLocation'),'/Templates/ConfigureVM.json',parameters('_artifactsLocationSasToken'))]",
         "webAppGatewayTemplateUri": "[concat(parameters('_artifactsLocation'),'/Templates/CreateAppGateway.json',parameters('_artifactsLocationSasToken'))]",
         "webAppTemplateUri": "[concat(parameters('_artifactsLocation'),'/Templates/webAppService.json',parameters('_artifactsLocationSasToken'))]",
         "VnetWithDNSTemplateUri": "[concat(parameters('_artifactsLocation'),'/Templates/VnetWithDNSServer.json',parameters('_artifactsLocationSasToken'))]",
+        "InstallToolTemplateUri": "[concat(parameters('_artifactsLocation'),'/Templates/InstallTool.json',parameters('_artifactsLocationSasToken'))]",
         "ADSubnetName": "ADSubnet",
         "ADSubnetRange": "192.168.2.0/24",
         "ToolSubnetName": "ToolSubnet",
@@ -176,7 +178,7 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "[variables('ConfigureSvrTemplateUri')]",
+                    "uri": "[variables('ConfigureADSvrTemplateUri')]",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
@@ -228,12 +230,6 @@
                     "vmIpAddress": {
                         "value": "[variables('JumpServerIP')]"
                     },
-                    "DNSServer": {
-                        "value": "[variables('ADServerIP')]"
-                    },
-                    "domainName": {
-                        "value": "[variables('DomainName')]"
-                    },
                     "location": {
                         "value": "[parameters('location')]"
                     },
@@ -276,11 +272,117 @@
                     "vmIpAddress": {
                         "value": "[variables('ToolServerIP')]"
                     },
-                    "DNSServer": {
-                        "value": "[variables('ADServerIP')]"
+                    "location": {
+                        "value": "[parameters('location')]"
+                    },
+                    "_artifactsLocation": {
+                        "value": "[parameters('_artifactsLocation')]"
+                    },
+                    "_artifactsLocationSasToken": {
+                        "value": "[parameters('_artifactsLocationSasToken')]"
+                    }
+                }
+            }
+        },
+        {
+            "name": "AddJumpServerToDNS",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2018-08-01",
+            "dependsOn": [
+                "Microsoft.Resources/deployments/CreateJumpSvr"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('ConfigureVMSvrTemplateUri')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "vmName": {
+                        "value": "[variables('JumpSvrName')]"
                     },
                     "domainName": {
                         "value": "[variables('DomainName')]"
+                    },
+                    "DNSServer": {
+                        "value": "[variables('ADServerIP')]"
+                    },
+                    "location": {
+                        "value": "[parameters('location')]"
+                    },
+                    "_artifactsLocation": {
+                        "value": "[parameters('_artifactsLocation')]"
+                    },
+                    "_artifactsLocationSasToken": {
+                        "value": "[parameters('_artifactsLocationSasToken')]"
+                    }
+                }
+            }
+        },
+        {
+            "name": "AddToolServerToDNS",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2018-08-01",
+            "dependsOn": [
+                "Microsoft.Resources/deployments/CreateToolSvr"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('ConfigureVMSvrTemplateUri')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "vmName": {
+                        "value": "[variables('ToolSvrName')]"
+                    },
+                    "domainName": {
+                        "value": "[variables('DomainName')]"
+                    },
+                    "DNSServer": {
+                        "value": "[variables('ADServerIP')]"
+                    },
+                    "location": {
+                        "value": "[parameters('location')]"
+                    },
+                    "_artifactsLocation": {
+                        "value": "[parameters('_artifactsLocation')]"
+                    },
+                    "_artifactsLocationSasToken": {
+                        "value": "[parameters('_artifactsLocationSasToken')]"
+                    }
+                }
+            }
+        },
+        {
+            "name": "InstallToolInToolSvr",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2018-08-01",
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/deployments','CreateToolSvr')]",
+                "[resourceId('Microsoft.Resources/deployments','AddToolServerToDNS')]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('InstallToolTemplateUri')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "virtualNetworkName": {
+                        "value": "[parameters('virtualNetworkName')]"
+                    },
+                    "ToolSubnetName": {
+                        "value": "[variables('ToolSubnetName')]"
+                    },
+                    "ToolNSGName": {
+                        "value": "[variables('ToolNSGName')]"
+                    },
+                    "vmName": {
+                        "value": "[variables('ToolSvrName')]"
+                    },
+                    "vmIpAddress": {
+                        "value": "[variables('ToolServerIP')]"
                     },
                     "location": {
                         "value": "[parameters('location')]"
@@ -344,8 +446,8 @@
             "apiVersion": "2018-08-01",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments','ConfigureADSvr')]",
-                "[resourceId('Microsoft.Resources/deployments','CreateToolSvr')]",
-                "[resourceId('Microsoft.Resources/deployments','CreateJumpSvr')]"
+                "[resourceId('Microsoft.Resources/deployments','AddJumpServerToDNS')]",
+                "[resourceId('Microsoft.Resources/deployments','AddToolServerToDNS')]"
             ],
             "properties": {
                 "mode": "Incremental",
