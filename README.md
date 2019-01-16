@@ -14,6 +14,6 @@ Accept the term and condition by checking the check box.
 Click on Purchase....
 And there you go... 
 
-<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Farunendrachauhan%2Fedemo%2Fmaster%2FAzureDeploy.json" target="_blank">
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Farunendrachauhan%2FAzDemo%2Fmaster%2FAzureDeploy.json" target="_blank">
     <img src="https://azuredeploy.net/deploybutton.png"/>
 </a>
