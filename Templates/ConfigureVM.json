@@ -10,7 +10,7 @@
       "defaultValue": "[resourceGroup().location]"
     },
     "DNSServer": {
-      "type":  "string"
+      "type": "string"
     },
     "adminUserName": {
       "type": "string",
