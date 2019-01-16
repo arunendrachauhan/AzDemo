@@ -53,8 +53,8 @@
         "typeHandlerVersion": "2.21",
         "autoUpgradeMinorVersion": true,
         "settings": {
-          "modulesURL": "[parameters('MYVMConfigurationModulesURL')]",
-          "configurationFunction": "[parameters('MYVMConfigurationFunction')]",
+          "modulesURL": "[variables('MYVMConfigurationModulesURL')]",
+          "configurationFunction": "[variables('MYVMConfigurationFunction')]",
           "properties": {
             "domainName": "[parameters('domainName')]",
             "DNSServer": "[parameters('DNSServer')]",

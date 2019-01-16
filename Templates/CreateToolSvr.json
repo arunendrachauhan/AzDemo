@@ -208,7 +208,7 @@
             "autoUpgradeMinorVersion": true,
             "settings": {
               "fileUris": [
-                "[variables('installToolScriptURI')]"
+                "[variables('installToolModulesScriptURI')]"
               ],
               "commandToExecute": "powershell -ExecutionPolicy Unrestricted -file InstallToolModules.ps1 -run './InstallToolModules.ps1'"
             }
