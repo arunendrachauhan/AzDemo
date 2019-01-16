@@ -8,6 +8,20 @@
         "description": "The computer name for the new VM."
       }
     },
+    "adminUserName": {
+      "type": "string",
+      "defaultValue": "Admin123",
+      "metadata": {
+        "description": "The name of the admin account for the VM"
+      }
+    },
+    "adminPassword": {
+      "type": "securestring",
+      "defaultValue": "Password@123",
+      "metadata": {
+        "description": "The password for the Administrator account of the new VM"
+      }
+    },
     "_artifactsLocation": {
       "type": "string"
     },
@@ -24,27 +38,34 @@
     }
   },
   "variables": {
-    "installToolScriptURI": "[concat(parameters('_artifactsLocation'),'/Scripts/InstallBitbucket.ps1',parameters('_artifactsLocationSasToken'))]"
+    "installToolScriptURI": "[concat(parameters('_artifactsLocation'),'/Scripts/InstallTool.zip',parameters('_artifactsLocationSasToken'))]",
+    "InstallToolFunction": "InstallTool.ps1\\InstallTool" 
   },
   "resources": [
     {
-      "apiVersion": "2018-06-01",
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "name": "[concat(parameters('vmName'),'/InstallTool')]",
+      "apiVersion": "2018-06-01",
       "location": "[parameters('location')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]"
-      ],
       "properties": {
-        "publisher": "Microsoft.Compute",
-        "type": "CustomScriptExtension",
-        "typeHandlerVersion": "1.9",
+        "publisher": "Microsoft.Powershell",
+        "type": "DSC",
+        "typeHandlerVersion": "2.21",
         "autoUpgradeMinorVersion": true,
         "settings": {
-          "fileUris": [
-            "[variables('installToolScriptURI')]"
-          ],
-          "commandToExecute": "powershell -ExecutionPolicy Unrestricted -file InstallBitbucket.ps1 -run './InstallBitbucket.ps1'"
+          "modulesURL": "[parameters('installToolScriptURI')]",
+          "configurationFunction": "[parameters('InstallToolFunction')]",
+          "properties": {
+            "adminCreds": {
+              "userName": "[parameters('adminUserName')]",
+              "password": "privateSettingsRef:adminPassword"
+            }
+          }
+        },
+        "protectedSettings": {
+          "items": {
+            "adminPassword": "[parameters('adminPassword')]"
+          }
         }
       }
     }
