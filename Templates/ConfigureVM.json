@@ -56,7 +56,7 @@
           "modulesURL": "[variables('MYVMConfigurationModulesURL')]",
           "configurationFunction": "[variables('MYVMConfigurationFunction')]",
           "properties": {
-            "DomainName": "[parameters('domainName')]",
+            "domainName": "[parameters('domainName')]",
             "DNSServer": "[parameters('DNSServer')]",
             "DNSForwarder": "[parameters('DNSServer')]",
             "adminCreds": {
