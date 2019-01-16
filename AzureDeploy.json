@@ -30,7 +30,7 @@
             "metadata": {
                 "description": "The location of resources such as templates and DSC modules that the script depends on."
             },
-            "defaultValue": "https://raw.githubusercontent.com/arunendrachauhan/edemo/master"
+            "defaultValue": "https://raw.githubusercontent.com/arunendrachauhan/AzDemo/master"
         },
         "_artifactsLocationSasToken": {
             "type": "securestring",
