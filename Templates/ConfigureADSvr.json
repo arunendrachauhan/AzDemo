@@ -91,9 +91,6 @@
             "type": "Microsoft.Compute/virtualMachines/extensions",
             "name": "[concat(trim(variables('vmListArray')[copyIndex()]),'/joindomain')]",
             "location": "[parameters('location')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(parameters('vmName'),'/CreateADForest'))]"
-            ],
             "copy": {
                 "name": "vmDomainJoinCopy",
                 "count": "[length(variables('vmListArray'))]"
