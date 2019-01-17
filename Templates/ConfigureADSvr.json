@@ -95,7 +95,7 @@
         "autoUpgradeMinorVersion": true,
         "settings": {
           "Name": "[parameters('domainName')]",
-          "User": "[concat('globant','\\',variables('DomainAdminUserName'))]",
+          "User": "[variables('DomainAdminUserName')]",
           "Restart": "true",
           "Options": "[variables('domainJoinOptions')]",
           "OUPath": "[parameters('ouPath')]"
