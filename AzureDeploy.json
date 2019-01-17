@@ -231,6 +231,9 @@
                     "vmIpAddress": {
                         "value": "[variables('JumpServerIP')]"
                     },
+                    "domainName": {
+                        "value": "[variables('DomainName')]"
+                    },
                     "location": {
                         "value": "[parameters('location')]"
                     },
@@ -242,34 +245,6 @@
                     }
                 }
             }
-        },
-        {
-            "name": "CreatevmSvr",
-            "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2018-08-01",
-            "dependsOn": [
-                "[resourceId('Microsoft.Resources/deployments','CreateJumpSvr')]"
-            ],
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "uri": "[variables('VMSvrTemplateUri')]",
-                    "contentVersion": "1.0.0.0"
-                },
-                "parameters": {
-                    
-                    "vmName": {
-                        "value": "[variables('JumpSvrName')]"
-                    },
-                    "domainName": {
-                        "value": "[variables('DomainName')]"
-                    },
-                    "location": {
-                        "value": "[parameters('location')]"
-                    }
-                }
-            }
         }
-        
     ]
 }
