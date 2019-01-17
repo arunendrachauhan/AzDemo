@@ -284,34 +284,6 @@
                     }
                 }
             }
-        },
-        {
-            "name": "AddVMDNS",
-            "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2018-08-01",
-            "dependsOn": [
-                "[resourceId('Microsoft.Resources/deployments','CreateJumpSvr')]",
-                "[resourceId('Microsoft.Resources/deployments','CreateToolSvr')]",
-                "[resourceId('Microsoft.Resources/deployments','ConfigureADSvr')]"
-            ],
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "uri": "[variables('AddVMDNSTemplateURI')]",
-                    "contentVersion": "1.0.0.0"
-                },
-                "parameters": {
-                    "vmName": {
-                        "value": "[variables('ADSvrName')]"
-                    },
-                    "location": {
-                        "value": "[parameters('location')]"
-                    },
-                    "domainName": {
-                        "value": "[variables('DomainName')]"
-                    }
-                }
-            }
         }
     ]
 }
