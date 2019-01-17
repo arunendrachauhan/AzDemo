@@ -104,7 +104,10 @@
               "protocol": "Tcp",
               "sourcePortRange": "*",
               "destinationPortRange": "*",
-              "sourceAddressPrefixe": "*",
+              "sourceAddressPrefixes": [
+                "[parameters('PublicSubnetRange')]",
+                "[parameters('ToolSubnetRange')]"
+              ],  
               "destinationAddressPrefix": "*",
               "access": "Allow",
               "priority": 100,
@@ -183,7 +186,10 @@
               "protocol": "Tcp",
               "sourcePortRange": "*",
               "destinationPortRange": "*",
-              "sourceAddressPrefixe": "*",
+              "sourceAddressPrefixes": [
+                "[parameters('ADSubnetRange')]",
+                "[parameters('ToolSubnetRange')]"
+              ],  
               "destinationAddressPrefix": "*",
               "access": "Allow",
               "priority": 200,
