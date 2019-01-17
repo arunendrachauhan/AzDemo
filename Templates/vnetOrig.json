@@ -106,8 +106,7 @@
               "destinationPortRange": "*",
               "sourceAddressPrefixes": [
                 "[parameters('PublicSubnetRange')]",
-                "[parameters('ToolSubnetRange')]",
-                "*"
+                "[parameters('ToolSubnetRange')]"
               ],  
               "destinationAddressPrefix": "*",
               "access": "Allow",
@@ -189,8 +188,7 @@
               "destinationPortRange": "*",
               "sourceAddressPrefixes": [
                 "[parameters('ADSubnetRange')]",
-                "[parameters('ToolSubnetRange')]",
-                "*"
+                "[parameters('ToolSubnetRange')]"
               ],  
               "destinationAddressPrefix": "*",
               "access": "Allow",
