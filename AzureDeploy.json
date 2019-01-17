@@ -68,7 +68,8 @@
         "JumpServerIP": "192.168.1.4",
         "AppGtwSubnetName": "AppGtwSubnet",
         "AppGtwSubnetRange": "192.168.0.0/24",
-        "DomainName": "globant.com"
+        "DomainName": "globant.com",
+        "VMSvrTemplateUri": "[concat(parameters('_artifactsLocation'),'/Templates/vmtodns.json',parameters('_artifactsLocationSasToken'))]"
     },
     "resources": [
         {
