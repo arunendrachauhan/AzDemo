@@ -63,9 +63,9 @@
         "ADSvrName": "ADServer",
         "ADServerIP": "192.168.2.4",
         "ToolSvrName": "ToolServer",
-        "ToolServerIP": "192.168.3.4",
+        "ToolServerIP": "192.168.2.6",
         "JumpSvrName": "JumpServer",
-        "JumpServerIP": "192.168.1.4",
+        "JumpServerIP": "192.168.2.5",
         "AppGtwSubnetName": "AppGtwSubnet",
         "AppGtwSubnetRange": "192.168.0.0/24",
         "DomainName": "globant.com",
@@ -222,10 +222,10 @@
                         "value": "[parameters('virtualNetworkName')]"
                     },
                     "PublicSubnetName": {
-                        "value": "[variables('PublicSubnetName')]"
+                        "value": "[variables('ADSubnetName')]"
                     },
                     "PublicNSGName": {
-                        "value": "[variables('PublicNSGName')]"
+                        "value": "[variables('ADNSGName')]"
                     },
                     "vmName": {
                         "value": "[variables('JumpSvrName')]"
@@ -264,10 +264,10 @@
                         "value": "[parameters('virtualNetworkName')]"
                     },
                     "ToolSubnetName": {
-                        "value": "[variables('ToolSubnetName')]"
+                        "value": "[variables('ADSubnetName')]"
                     },
                     "ToolNSGName": {
-                        "value": "[variables('ToolNSGName')]"
+                        "value": "[variables('ADNSGName')]"
                     },
                     "vmName": {
                         "value": "[variables('ToolSvrName')]"
