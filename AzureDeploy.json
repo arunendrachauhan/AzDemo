@@ -68,7 +68,8 @@
         "JumpServerIP": "192.168.1.4",
         "AppGtwSubnetName": "AppGtwSubnet",
         "AppGtwSubnetRange": "192.168.0.0/24",
-        "DomainName": "globant.com"
+        "DomainName": "globant.com",
+        "AddVMDNSTemplateURI": "[concat(parameters('_artifactsLocation'),'/Templates/AddVMDNS.json',parameters('_artifactsLocationSasToken'))]"
     },
     "resources": [
         {
@@ -173,9 +174,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2018-08-01",
             "dependsOn": [
-                "Microsoft.Resources/deployments/CreateADSvr",
-                "Microsoft.Resources/deployments/CreateJumpSvr",
-                "Microsoft.Resources/deployments/CreateToolSvr"
+                "Microsoft.Resources/deployments/CreateADSvr"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -207,7 +206,8 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2018-08-01",
             "dependsOn": [
-                "[resourceId('Microsoft.Resources/deployments','CreateADSvr')]"
+                "[resourceId('Microsoft.Resources/deployments','CreateADSvr')]",
+                "[resourceId('Microsoft.Resources/deployments','CreateVNET-NSG')]"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -248,7 +248,8 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2018-08-01",
             "dependsOn": [
-                "[resourceId('Microsoft.Resources/deployments','CreateJumpSvr')]"
+                "[resourceId('Microsoft.Resources/deployments','CreateJumpSvr')]",
+                "[resourceId('Microsoft.Resources/deployments','CreateVNET-NSG')]"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -280,6 +281,34 @@
                     },
                     "_artifactsLocationSasToken": {
                         "value": "[parameters('_artifactsLocationSasToken')]"
+                    }
+                }
+            }
+        },
+        {
+            "name": "AddVMDNS",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2018-08-01",
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/deployments','CreateJumpSvr')]",
+                "[resourceId('Microsoft.Resources/deployments','CreateToolSvr')]",
+                "[resourceId('Microsoft.Resources/deployments','ConfigureADSvr')]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('AddVMDNSTemplateURI')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "vmName": {
+                        "value": "[variables('ToolSvrName')]"
+                    },
+                    "location": {
+                        "value": "[parameters('location')]"
+                    },
+                    "domainName": {
+                        "value": "[variables('DomainName')]"
                     }
                 }
             }
