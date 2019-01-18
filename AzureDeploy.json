@@ -174,9 +174,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2018-08-01",
             "dependsOn": [
-                "Microsoft.Resources/deployments/CreateADSvr",
-                "[resourceId('Microsoft.Resources/deployments','CreateToolSvr')]",
-                "[resourceId('Microsoft.Resources/deployments','CreateJumpSvr')]"
+                "Microsoft.Resources/deployments/CreateADSvr"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -208,7 +206,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2018-08-01",
             "dependsOn": [
-                "[resourceId('Microsoft.Resources/deployments','CreateADSvr')]",
+                "[resourceId('Microsoft.Resources/deployments','ConfigureADSvr')]",
                 "[resourceId('Microsoft.Resources/deployments','CreateVNET-NSG')]"
             ],
             "properties": {
@@ -232,48 +230,6 @@
                     },
                     "vmIpAddress": {
                         "value": "[variables('JumpServerIP')]"
-                    },
-                    "location": {
-                        "value": "[parameters('location')]"
-                    },
-                    "_artifactsLocation": {
-                        "value": "[parameters('_artifactsLocation')]"
-                    },
-                    "_artifactsLocationSasToken": {
-                        "value": "[parameters('_artifactsLocationSasToken')]"
-                    }
-                }
-            }
-        },
-        {
-            "name": "CreateToolSvr",
-            "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2018-08-01",
-            "dependsOn": [
-                "[resourceId('Microsoft.Resources/deployments','CreateJumpSvr')]",
-                "[resourceId('Microsoft.Resources/deployments','CreateVNET-NSG')]"
-            ],
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "uri": "[variables('ToolSvrTemplateUri')]",
-                    "contentVersion": "1.0.0.0"
-                },
-                "parameters": {
-                    "virtualNetworkName": {
-                        "value": "[parameters('virtualNetworkName')]"
-                    },
-                    "ToolSubnetName": {
-                        "value": "[variables('ToolSubnetName')]"
-                    },
-                    "ToolNSGName": {
-                        "value": "[variables('ToolNSGName')]"
-                    },
-                    "vmName": {
-                        "value": "[variables('ToolSvrName')]"
-                    },
-                    "vmIpAddress": {
-                        "value": "[variables('ToolServerIP')]"
                     },
                     "location": {
                         "value": "[parameters('location')]"
