@@ -30,7 +30,7 @@
       "metadata": {
         "description": "List of virtual machines to be domain joined, if using multiple VMs, make their names comma separate. E.g. VM01, VM02, VM03."
       },
-      "defaultValue": "ToolServer,JumpServer"
+      "defaultValue": "192.168.1.4,192.168.3.4"
     },
     "ouPath": {
       "type": "string",

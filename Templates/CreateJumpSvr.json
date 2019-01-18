@@ -28,7 +28,7 @@
     },
     "vmIpAddress": {
       "type": "string",
-      "defaultValue": "192.168.2.5",
+      "defaultValue": "192.168.1.4",
       "metadata": {
         "description": "The IP address for the new VM"
       }
